@@ -8,5 +8,8 @@ COPY src ./src
 # Build a release artifact.
 RUN mvn package -DskipTests
 
+# Copy the built jar to a stable name so version bumps don't break the CMD.
+RUN cp target/*.jar app.jar
+
 # Run the web service on container startup.
-CMD ["java","-jar","/app/target/springboot-init-0.0.1-SNAPSHOT.jar","--spring.profiles.active=prod"]
+CMD ["java","-jar","/app/app.jar","--spring.profiles.active=prod"]
